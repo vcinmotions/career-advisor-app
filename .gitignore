@@ -1,0 +1,13 @@
+@"
+node_modules/
+.expo/
+dist/
+web-build/
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+android/
+ios/
+"@ | Set-Content .gitignore
