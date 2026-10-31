@@ -38,7 +38,9 @@ export default function AdvisorLoginScreen({ navigation }: any) {
         const { accessToken, refreshToken, user } = resData.data || resData;
 
         if (!accessToken || !user) throw new Error('The server returned an incomplete login response.');
-        if (user.role !== 'CAREER_ADVISOR') throw new Error('This account is not registered as a Career Advisor.');
+        if (String(user.role || '').toUpperCase() !== 'CAREER_ADVISOR') {
+          throw new Error('This account is not registered as a Career Advisor.');
+        }
         await login(user, accessToken, refreshToken || '');
 
         Alert.alert('Welcome Back', `Logged in successfully as Career Advisor!`);

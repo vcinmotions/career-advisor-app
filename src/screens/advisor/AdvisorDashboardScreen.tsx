@@ -139,9 +139,9 @@ export default function AdvisorDashboardScreen({ navigation }: any) {
               <TouchableOpacity
                 style={styles.heroButton}
                 activeOpacity={0.8}
-                onPress={() => navigation.navigate('AdvisorSignUp')}
+                onPress={() => navigation.navigate('AdvisorStudents', { openCreateLead: true })}
               >
-                <Text style={styles.heroButtonText}>+ Register Candidate</Text>
+                <Text style={styles.heroButtonText}>+ Add New Lead</Text>
               </TouchableOpacity>
             </View>
           </View>

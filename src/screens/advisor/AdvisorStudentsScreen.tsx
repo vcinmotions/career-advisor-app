@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -17,13 +17,19 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { smartSkillsClient, apiErrorMessage, unwrapList } from '../../api/smartSkillsClient';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function AdvisorStudentsScreen() {
+export default function AdvisorStudentsScreen({ route, navigation }: any) {
   const queryClient = useQueryClient();
   const stages = ['NEW_LEAD', 'COUNSELLING', 'FOLLOW_UP', 'ADMISSION', 'DROPPED'] as const;
   const [activeTab, setActiveTab] = useState<(typeof stages)[number]>('NEW_LEAD');
 
   // Modals
   const [showCreateModal, setShowCreateModal] = useState(false);
+
+  useEffect(() => {
+    if (!route?.params?.openCreateLead) return;
+    setShowCreateModal(true);
+    navigation.setParams?.({ openCreateLead: undefined });
+  }, [route?.params?.openCreateLead, navigation]);
   const [showFollowUpModal, setShowFollowUpModal] = useState<any>(null);
   const [showAdmissionModal, setShowAdmissionModal] = useState<any>(null);
 
@@ -125,6 +131,8 @@ export default function AdvisorStudentsScreen() {
       setPassword('');
       setCoupon('');
       setAdmissionCourseId('');
+      setAdmissionEmail('');
+      setAdmissionAddress('');
       queryClient.invalidateQueries({ queryKey: ['advisorStudents'] });
     },
     onError: (err: any) => Alert.alert('Conversion Failed', apiErrorMessage(err, 'Check required details.')),
